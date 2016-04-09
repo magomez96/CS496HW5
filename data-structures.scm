@@ -56,15 +56,15 @@
 
   (define-datatype proc proc?
     (procedure
-      (bvar symbol?)
+      (bvar (list-of symbol?))
       (body expression?)
       (env environment?)))
   
   (define-datatype environment environment?
     (empty-env)
     (extend-env 
-      (bvar symbol?)
-      (bval expval?)
+      (bvar (list-of symbol?))
+      (bval (list-of expval?))
       (saved-env environment?))
     (extend-env-rec*
       (proc-names (list-of symbol?))

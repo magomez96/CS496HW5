@@ -15,11 +15,11 @@
   (define init-env 
     (lambda ()
       (extend-env 
-       'i (num-val 1)
+       (list 'i) (list (num-val 1))
        (extend-env
-        'v (num-val 5)
+        (list 'v) (list (num-val 5))
         (extend-env
-         'x (num-val 10)
+         (list 'x) (list (num-val 10))
          (empty-env))))))
 
 ;;;;;;;;;;;;;;;; environment constructors and observers ;;;;;;;;;;;;;;;;
@@ -30,8 +30,8 @@
         (empty-env ()
           (eopl:error 'apply-env "No binding for ~s" search-sym))
         (extend-env (bvar bval saved-env)
-	  (if (eqv? search-sym bvar)
-	    bval
+	  (if (location search-sym bvar)
+	    (location search-sym bvar)
 	    (apply-env saved-env search-sym)))
         (extend-env-rec* (p-names b-vars p-bodies saved-env)
           (cond 
