@@ -31,7 +31,7 @@
           (eopl:error 'apply-env "No binding for ~s" search-sym))
         (extend-env (bvar bval saved-env)
 	  (if (location search-sym bvar)
-	    (location search-sym bvar)
+	    (list-ref  bval(location search-sym bvar))
 	    (apply-env saved-env search-sym)))
         (extend-env-rec* (p-names b-vars p-bodies saved-env)
           (cond 

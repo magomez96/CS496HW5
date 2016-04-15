@@ -29,6 +29,10 @@
         (a-program (exp1)
           (value-of exp1 (init-env))))))
 
+  (define env-get-val
+    (lambda (x)
+      (lambda (y)
+        (value-of y x))))
   ;; value-of : Exp * Env -> ExpVal
   ;; Page: 113
   (define value-of
@@ -69,14 +73,14 @@
         (let-exp (var exp1 body)       
           (let ((val1 (value-of exp1 env)))
             (value-of body
-              (extend-env var val1 env))))
+              (extend-env (list var) (list val1) env))))
         
         (proc-exp (var body)
           (proc-val (procedure var body env)))
 
         (call-exp (rator rand)
           (let ((proc (expval->proc (value-of rator env)))
-                (arg (value-of rand env)))
+                (arg (map (env-get-val env) rand)))
             (apply-procedure proc arg)))
 
         (letrec-exp (p-names b-vars p-bodies letrec-body)
